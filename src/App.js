@@ -5,7 +5,7 @@ import RoomList from "./components/RoomList";
 function App() {
   return (
     <AuthProvider>
-      <h1>Rooms</h1>
+      <h1>Room Status</h1>
       <RoomList />
     </AuthProvider>
   );
