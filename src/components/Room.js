@@ -1,36 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { css } from "emotion";
 
-function Room({ id, name, capacity }) {
-  // TODO: store upcoming events and display more info
-  const [status, setStatus] = useState({
-    message: "Loading...",
-    isAvailable: null
-  });
+import useRoomStatus from "../hooks/useRoomStatus";
 
-  useEffect(() => {
-    window.gapi.client
-      .request({
-        path: `https://www.googleapis.com/calendar/v3/calendars/${id}/events`,
-        params: {
-          singleEvents: true,
-          orderBy: "startTime",
-          maxResults: 1,
-          timeMin: new Date().toISOString()
-        }
-      })
-      .then(response => {
-        const [nextMeeting] = response.result.items;
-        const { message, isAvailable } = getAvailability(nextMeeting);
-        setStatus({
-          message,
-          isAvailable
-        });
-      });
-  }, [id]);
+function Room({ id, name, capacity }) {
+  const { hasFetchedOnce, events } = useRoomStatus(id);
+
+  const [nextEvent] = events;
+  const status = getAvailability(nextEvent);
 
   let backgroundColor = "#eee";
-  if (status.isAvailable !== null) {
+  if (hasFetchedOnce) {
     backgroundColor = status.isAvailable ? "LightGreen" : "LightPink";
   }
 
@@ -57,11 +37,11 @@ function Room({ id, name, capacity }) {
 
 export default Room;
 
-function getAvailability(nextMeeting) {
+function getAvailability(nextEvent) {
   let availabilityMessage = "Available forever.";
   let isAvailable = true;
-  if (nextMeeting) {
-    const start = new Date(nextMeeting.start.dateTime);
+  if (nextEvent) {
+    const start = new Date(nextEvent.start);
     const now = new Date();
     isAvailable = now < start;
 
