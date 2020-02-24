@@ -19,9 +19,9 @@ function Room({ id, name, capacity, isSelected, onClick }) {
       onClick={onClick}
       className={css`
         background: ${backgroundColor};
-        margin-bottom: 0.25rem;
         padding: 0.5rem;
-        ${isSelected && `border-right: 0.25em solid black;`}
+        border-right: 0.25em solid white;
+        ${isSelected && `border-color: black;`}
       `}
     >
       <div

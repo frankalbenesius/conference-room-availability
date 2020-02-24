@@ -3,6 +3,7 @@ import { css } from "emotion";
 
 import Room from "./Room";
 import useRooms from "../hooks/useRooms";
+import EventList from "./EventList";
 
 function RoomList() {
   const rooms = useRooms();
@@ -18,21 +19,28 @@ function RoomList() {
     <div
       className={css`
         display: flex;
-        flex-direction: column;
-        max-width: 14rem;
-        margin: 0 auto;
       `}
     >
-      {rooms.sort(sortRoomsByFloorAndSection).map(room => (
-        <Room
-          key={room.id}
-          isSelected={selectedRoomId === room.id}
-          onClick={() => {
-            setSelectedRoomId(room.id);
-          }}
-          {...room}
-        />
-      ))}
+      <div
+        className={css`
+          display: flex;
+          flex-direction: column;
+          max-width: 14rem;
+          margin-right: 1rem;
+        `}
+      >
+        {rooms.sort(sortRoomsByFloorAndSection).map(room => (
+          <Room
+            key={room.id}
+            isSelected={selectedRoomId === room.id}
+            onClick={() => {
+              setSelectedRoomId(room.id);
+            }}
+            {...room}
+          />
+        ))}
+      </div>
+      <EventList roomId={selectedRoomId} />
     </div>
   );
 }
