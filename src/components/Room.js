@@ -1,10 +1,10 @@
 import React from "react";
 import { css } from "emotion";
 
-import useRoomStatus from "../hooks/useRoomStatus";
+import useRoomEvents from "../hooks/useRoomEvents";
 
 function Room({ id, name, capacity }) {
-  const { hasFetchedOnce, events } = useRoomStatus(id);
+  const { hasFetchedOnce, events } = useRoomEvents(id);
 
   const [nextEvent] = events;
   const status = getAvailability(nextEvent);

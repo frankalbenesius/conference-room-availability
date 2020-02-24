@@ -1,7 +1,7 @@
 import { useContext, useEffect, useReducer } from "react";
 import { ApiContext } from "../components/ApiProvider";
 
-function useRoomStatus(roomId = "") {
+function useRoomEvents(roomId = "") {
   const { fetchEvents } = useContext(ApiContext);
 
   const [state, dispatch] = useReducer(eventsReducer, {
@@ -20,7 +20,7 @@ function useRoomStatus(roomId = "") {
   return state;
 }
 
-export default useRoomStatus;
+export default useRoomEvents;
 
 function eventsReducer(state, action) {
   switch (action.type) {

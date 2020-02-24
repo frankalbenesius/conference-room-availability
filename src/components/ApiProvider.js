@@ -2,21 +2,24 @@ import React, { createContext, useState, useEffect } from "react";
 import { GAPI_INIT_OPTS } from "../constants";
 
 export const ApiContext = createContext({
+  isInitialized: false,
   isSignedIn: false,
+  handleSignIn: () => {},
+  handleSignOut: () => {},
   fetchRooms: () => Promise.resolve([]),
   fetchEvents: () => Promise.resolve([])
 });
 
 export function ApiProvider(props) {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [authIsReady, setAuthIsReady] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     function initClient() {
       window.gapi.client.init(GAPI_INIT_OPTS).then(
         function() {
           // Signal to component that it can display sign-in and sign-off buttons.
-          setAuthIsReady(true);
+          setIsInitialized(true);
           // Listen for sign-in state changes.
           window.gapi.auth2.getAuthInstance().isSignedIn.listen(setIsSignedIn);
           // Handle the initial sign-in state.
@@ -32,11 +35,15 @@ export function ApiProvider(props) {
   }, [setIsSignedIn]);
 
   function handleSignIn() {
-    window.gapi.auth2.getAuthInstance().signIn();
+    if (isInitialized) {
+      window.gapi.auth2.getAuthInstance().signIn();
+    }
   }
 
   function handleSignOut() {
-    window.gapi.auth2.getAuthInstance().signOut();
+    if (isInitialized) {
+      window.gapi.auth2.getAuthInstance().signOut();
+    }
   }
 
   function fetchRooms() {
@@ -99,17 +106,17 @@ export function ApiProvider(props) {
   }
 
   return (
-    <ApiContext.Provider value={{ isSignedIn, fetchRooms, fetchEvents }}>
+    <ApiContext.Provider
+      value={{
+        isInitialized,
+        isSignedIn,
+        handleSignIn,
+        handleSignOut,
+        fetchRooms,
+        fetchEvents
+      }}
+    >
       {props.children}
-      {authIsReady && (
-        <div>
-          {isSignedIn ? (
-            <button onClick={handleSignOut}>sign out</button>
-          ) : (
-            <button onClick={handleSignIn}>sign in</button>
-          )}
-        </div>
-      )}
     </ApiContext.Provider>
   );
 }
