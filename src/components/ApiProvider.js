@@ -1,4 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
+import startOfToday from "date-fns/startOfToday";
+import endOfToday from "date-fns/endOfToday";
+
 import { GAPI_INIT_OPTS } from "../constants";
 
 export const ApiContext = createContext({
@@ -86,8 +89,8 @@ export function ApiProvider(props) {
           params: {
             singleEvents: true,
             orderBy: "startTime",
-            maxResults: 10,
-            timeMin: new Date().toISOString()
+            timeMin: startOfToday().toISOString(),
+            timeMax: endOfToday().toISOString()
           }
         })
         .then(response => {
