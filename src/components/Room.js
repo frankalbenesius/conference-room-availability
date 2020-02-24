@@ -3,7 +3,7 @@ import { css } from "emotion";
 
 import useRoomEvents from "../hooks/useRoomEvents";
 
-function Room({ id, name, capacity }) {
+function Room({ id, name, capacity, isSelected, onClick }) {
   const { hasFetchedOnce, events } = useRoomEvents(id);
 
   const [nextEvent] = events;
@@ -16,10 +16,12 @@ function Room({ id, name, capacity }) {
 
   return (
     <div
+      onClick={onClick}
       className={css`
         background: ${backgroundColor};
         margin-bottom: 0.25rem;
         padding: 0.5rem;
+        ${isSelected && `border-right: 0.25em solid black;`}
       `}
     >
       <div

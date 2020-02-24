@@ -2,7 +2,7 @@ import { useContext, useEffect, useReducer } from "react";
 import { ApiContext } from "../components/ApiProvider";
 
 function useRoomEvents(roomId = "") {
-  const { fetchEvents } = useContext(ApiContext);
+  const { fetchRoomEvents } = useContext(ApiContext);
 
   const [state, dispatch] = useReducer(eventsReducer, {
     hasFetchedOnce: false,
@@ -12,10 +12,10 @@ function useRoomEvents(roomId = "") {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ROOMS_START" });
-    fetchEvents(roomId).then(events => {
+    fetchRoomEvents(roomId).then(events => {
       dispatch({ type: "FETCH_ROOMS_SUCCESS", events });
     });
-  }, [roomId, fetchEvents, dispatch]);
+  }, [roomId, fetchRoomEvents, dispatch]);
 
   return state;
 }

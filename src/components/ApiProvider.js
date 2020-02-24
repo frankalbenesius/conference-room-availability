@@ -7,7 +7,7 @@ export const ApiContext = createContext({
   handleSignIn: () => {},
   handleSignOut: () => {},
   fetchRooms: () => Promise.resolve([]),
-  fetchEvents: () => Promise.resolve([])
+  fetchRoomEvents: () => Promise.resolve([])
 });
 
 export function ApiProvider(props) {
@@ -76,7 +76,7 @@ export function ApiProvider(props) {
     }
   }
 
-  function fetchEvents(roomId) {
+  function fetchRoomEvents(roomId) {
     if (!isSignedIn) {
       return Promise.resolve([]);
     } else {
@@ -86,7 +86,7 @@ export function ApiProvider(props) {
           params: {
             singleEvents: true,
             orderBy: "startTime",
-            maxResults: 2,
+            maxResults: 10,
             timeMin: new Date().toISOString()
           }
         })
@@ -113,7 +113,7 @@ export function ApiProvider(props) {
         handleSignIn,
         handleSignOut,
         fetchRooms,
-        fetchEvents
+        fetchRoomEvents
       }}
     >
       {props.children}

@@ -11,9 +11,9 @@ function AuthButton() {
   }
 
   if (isSignedIn) {
-    return <button onClick={handleSignOut}>sign out</button>;
+    return <button onClick={handleSignOut}>Sign Out</button>;
   } else {
-    return <button onClick={handleSignIn}>sign in</button>;
+    return <button onClick={handleSignIn}>Sign In</button>;
   }
 }
 

@@ -7,8 +7,8 @@ function App() {
   return (
     <ApiProvider>
       <h1>Room Status</h1>
-      <RoomList />
       <AuthButton />
+      <RoomList />
     </ApiProvider>
   );
 }

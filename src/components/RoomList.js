@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "emotion";
 
 import Room from "./Room";
@@ -6,17 +6,32 @@ import useRooms from "../hooks/useRooms";
 
 function RoomList() {
   const rooms = useRooms();
+
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
+  useEffect(() => {
+    if (rooms.length > 0 && selectedRoomId === null) {
+      setSelectedRoomId(rooms[0].id);
+    }
+  }, [rooms, selectedRoomId, setSelectedRoomId]);
+
   return (
     <div
       className={css`
         display: flex;
         flex-direction: column;
-        max-width: 20rem;
+        max-width: 14rem;
         margin: 0 auto;
       `}
     >
       {rooms.sort(sortRoomsByFloorAndSection).map(room => (
-        <Room key={room.id} {...room} />
+        <Room
+          key={room.id}
+          isSelected={selectedRoomId === room.id}
+          onClick={() => {
+            setSelectedRoomId(room.id);
+          }}
+          {...room}
+        />
       ))}
     </div>
   );
