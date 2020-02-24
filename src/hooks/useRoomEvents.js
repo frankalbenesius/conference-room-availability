@@ -11,10 +11,12 @@ function useRoomEvents(roomId = "") {
   });
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ROOMS_START" });
-    fetchRoomEvents(roomId).then(events => {
-      dispatch({ type: "FETCH_ROOMS_SUCCESS", events });
-    });
+    if (roomId) {
+      dispatch({ type: "FETCH_ROOMS_START" });
+      fetchRoomEvents(roomId).then(events => {
+        dispatch({ type: "FETCH_ROOMS_SUCCESS", events });
+      });
+    }
   }, [roomId, fetchRoomEvents, dispatch]);
 
   return state;
