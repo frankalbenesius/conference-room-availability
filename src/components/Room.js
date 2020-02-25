@@ -14,25 +14,45 @@ function Room({ id, name, capacity, isSelected, onClick }) {
   }
 
   return (
-    <RoomWrapper
+    <Wrapper
       backgroundColor={backgroundColor}
       isSelected={isSelected}
       onClick={onClick}
     >
-      <RoomName>
-        {name} ({capacity})
-      </RoomName>
-      <Availability>{availabilityMessage}</Availability>
-    </RoomWrapper>
+      <TextWrapper
+        backgroundColor={backgroundColor}
+        isSelected={isSelected}
+        onClick={onClick}
+      >
+        <RoomName>
+          {name} ({capacity})
+        </RoomName>
+        <Availability>{availabilityMessage}</Availability>
+      </TextWrapper>
+      {isSelected && (
+        <ArrowWrapper>
+          <img src="https://icon.now.sh/triangleRight" />
+        </ArrowWrapper>
+      )}
+    </Wrapper>
   );
 }
 
-const RoomWrapper = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TextWrapper = styled.div`
   background: ${p => p.backgroundColor};
   padding: 0.5rem;
-  border-right: 0.25em solid white;
   margin-bottom: 0.1rem;
-  ${p => p.isSelected && `border-color: black;`}
+  flex: 0 0 10rem;
+  width: 10rem;
+`;
+
+const ArrowWrapper = styled.div`
+  flex: 0 0 auto;
 `;
 
 const RoomName = styled.div`
