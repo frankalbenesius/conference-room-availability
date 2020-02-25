@@ -39,6 +39,7 @@ const EventListWrapper = styled.div`
 
 const Event = styled.div`
   ${p => p.isLive && `font-weight: bold;`}
+  color: ${p => p.theme.color};
 `;
 
 export default EventList;

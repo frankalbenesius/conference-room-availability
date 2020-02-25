@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "@emotion/styled";
 
 import useRoomAvailability from "../hooks/useRoomAvailability";
+import { DarkModeStateContext } from "./DarkModeProvider";
 
 function Room({ id, name, capacity, isSelected, onClick }) {
+  const isDark = useContext(DarkModeStateContext);
   const { isAvailable } = useRoomAvailability(id);
 
   let backgroundColor = "#eee";
@@ -31,7 +33,10 @@ function Room({ id, name, capacity, isSelected, onClick }) {
       </TextWrapper>
       {isSelected && (
         <ArrowWrapper>
-          <img src="https://icon.now.sh/triangleRight" />
+          <img
+            alt="right arrow"
+            src={`https://icon.now.sh/triangleRight/${isDark ? "fff" : "000"}`}
+          />
         </ArrowWrapper>
       )}
     </Wrapper>
