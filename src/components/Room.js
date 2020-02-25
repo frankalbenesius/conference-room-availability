@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "emotion";
+import styled from "@emotion/styled";
 
 import useRoomAvailability from "../hooks/useRoomAvailability";
 
@@ -14,33 +14,33 @@ function Room({ id, name, capacity, isSelected, onClick }) {
   }
 
   return (
-    <div
+    <RoomWrapper
+      backgroundColor={backgroundColor}
+      isSelected={isSelected}
       onClick={onClick}
-      className={css`
-        background: ${backgroundColor};
-        padding: 0.5rem;
-        border-right: 0.25em solid white;
-        margin-bottom: 0.1rem;
-        ${isSelected && `border-color: black;`}
-      `}
     >
-      <div
-        className={css`
-          text-transform: uppercase;
-        `}
-      >
+      <RoomName>
         {name} ({capacity})
-        <div
-          className={css`
-            font-size: 0.8rem;
-            text-transform: capitalize;
-          `}
-        >
-          {availabilityMessage}
-        </div>
-      </div>
-    </div>
+      </RoomName>
+      <Availability>{availabilityMessage}</Availability>
+    </RoomWrapper>
   );
 }
+
+const RoomWrapper = styled.div`
+  background: ${p => p.backgroundColor};
+  padding: 0.5rem;
+  border-right: 0.25em solid white;
+  margin-bottom: 0.1rem;
+  ${p => p.isSelected && `border-color: black;`}
+`;
+
+const RoomName = styled.div`
+  text-transform: uppercase;
+`;
+const Availability = styled.div`
+  font-size: 0.8rem;
+  text-transform: capitalize;
+`;
 
 export default Room;

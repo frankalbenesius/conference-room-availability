@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "emotion";
+import styled from "@emotion/styled";
 import format from "date-fns/format";
 
 import useRoomEvents from "../hooks/useRoomEvents";
@@ -16,30 +16,29 @@ function EventList({ roomId }) {
   }
 
   return (
-    <div
-      className={css`
-        text-align: left;
-      `}
-    >
+    <EventListWrapper>
       {events.map(event => {
         const now = new Date();
         const start = new Date(event.start);
         const end = new Date(event.end);
         const isLive = start < now && now < end;
         return (
-          <div
-            key={event.id}
-            className={css`
-              ${isLive && `font-weight: bold;`}
-            `}
-          >
+          <Event key={event.id} isLive={isLive}>
             {formatTime(event.start)}-{formatTime(event.end)}&nbsp;
             {event.title}
-          </div>
+          </Event>
         );
       })}
-    </div>
+    </EventListWrapper>
   );
 }
+
+const EventListWrapper = styled.div`
+  text-align: left;
+`;
+
+const Event = styled.div`
+  ${p => p.isLive && `font-weight: bold;`}
+`;
 
 export default EventList;

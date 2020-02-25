@@ -1,13 +1,12 @@
 import React from "react";
 import { ApiProvider } from "./components/ApiProvider";
 import RoomList from "./components/RoomList";
-import AuthButton from "./components/AuthButton";
+import Header from "./components/Header";
 
 function App() {
   return (
     <ApiProvider>
-      <h1>Room Status</h1>
-      <AuthButton />
+      <Header />
       <RoomList />
     </ApiProvider>
   );

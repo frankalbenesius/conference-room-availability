@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { css } from "emotion";
+import styled from "@emotion/styled";
 
 import Room from "./Room";
 import useRooms from "../hooks/useRooms";
@@ -16,19 +16,8 @@ function RoomList() {
   }, [rooms, selectedRoomId, setSelectedRoomId]);
 
   return (
-    <div
-      className={css`
-        display: flex;
-      `}
-    >
-      <div
-        className={css`
-          display: flex;
-          flex-direction: column;
-          max-width: 14rem;
-          margin-right: 1rem;
-        `}
-      >
+    <TwoColumnFlex>
+      <RoomListFlex>
         {rooms.sort(sortRoomsByFloorAndSection).map(room => (
           <Room
             key={room.id}
@@ -39,11 +28,25 @@ function RoomList() {
             {...room}
           />
         ))}
-      </div>
+      </RoomListFlex>
       <EventList roomId={selectedRoomId} />
-    </div>
+    </TwoColumnFlex>
   );
 }
+
+const TwoColumnFlex = styled.div`
+  display: flex;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+`;
+const RoomListFlex = styled.div`
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 14rem;
+  margin-right: 1rem;
+`;
 
 function sortRoomsByFloorAndSection(a, b) {
   if (a.floorName !== b.floorName) {
