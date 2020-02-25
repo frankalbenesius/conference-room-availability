@@ -11,12 +11,19 @@ function useRoomEvents(roomId = "") {
   });
 
   useEffect(() => {
-    if (roomId) {
-      dispatch({ type: "FETCH_ROOMS_START" });
-      fetchRoomEvents(roomId).then(events => {
-        dispatch({ type: "FETCH_ROOMS_SUCCESS", events });
-      });
+    function updateRoomEvents() {
+      if (roomId) {
+        dispatch({ type: "FETCH_EVENTS_START" });
+        fetchRoomEvents(roomId).then(events => {
+          dispatch({ type: "FETCH_EVENTS_SUCCESS", events });
+        });
+      }
     }
+    updateRoomEvents();
+    const interval = setInterval(updateRoomEvents, 1000 * 60);
+    return () => {
+      clearInterval(interval);
+    };
   }, [roomId, fetchRoomEvents, dispatch]);
 
   return state;
@@ -26,13 +33,13 @@ export default useRoomEvents;
 
 function eventsReducer(state, action) {
   switch (action.type) {
-    case "FETCH_ROOMS_START": {
+    case "FETCH_EVENTS_START": {
       return {
         ...state,
         isFetching: true
       };
     }
-    case "FETCH_ROOMS_SUCCESS": {
+    case "FETCH_EVENTS_SUCCESS": {
       return {
         ...state,
         hasFetchedOnce: true,
