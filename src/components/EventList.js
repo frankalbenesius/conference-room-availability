@@ -4,11 +4,7 @@ import format from "date-fns/format";
 
 import useRoomEvents from "../hooks/useRoomEvents";
 
-function formatTime(date) {
-  return format(date, "h:mma");
-}
-
-function EventList({ roomId }) {
+export default function EventList({ roomId }) {
   const { events, isFetching } = useRoomEvents(roomId);
 
   if (isFetching) {
@@ -42,4 +38,6 @@ const Event = styled.div`
   color: ${p => p.theme.color};
 `;
 
-export default EventList;
+function formatTime(date) {
+  return format(date, "h:mma");
+}
